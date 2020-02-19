@@ -8,7 +8,6 @@ using UnityEngine.UI;
 public class WebService : MonoBehaviour
 {
     public UIScripts UIScripts;
-    //System.Action<string> callback;
 
     // Start is called before the first frame update
     void Start()
@@ -16,10 +15,10 @@ public class WebService : MonoBehaviour
         UIScripts = GetComponent<UIScripts>();
     }
 
-public void ShowUserItems(){ 
-    //StartCoroutine(GetItemsIDs(MainScript.Instance.UserInfo.UserID),callback);
-    //return;
-}
+    public void ShowUserItems(){ 
+        //StartCoroutine(GetItemsIDs(MainScript.Instance.UserInfo.UserID),callback);
+        //return;
+    }
 
 
 public IEnumerator GetUsers(string uri)
@@ -34,11 +33,11 @@ public IEnumerator GetUsers(string uri)
 
             if (webRequest.isNetworkError)
             {
-                Debug.Log(pages[page] + ": Error: " + webRequest.error);
+               // Debug.Log(pages[page] + ": Error: " + webRequest.error);
             }
             else
             {
-                Debug.Log(pages[page] + ":\nReceived: " + webRequest.downloadHandler.text);
+               // Debug.Log(pages[page] + ":\nReceived: " + webRequest.downloadHandler.text);
             }
         }
     }
@@ -94,21 +93,31 @@ public IEnumerator GetUsers(string uri)
             }
             else
             { 
-                Debug.Log(www.downloadHandler.text);
+                //Debug.Log(www.downloadHandler.text);
 
             }
         };
 
     }    
-    public IEnumerator RegisterBill(string codename, string amount,string retencion, string year, string month, string day)
+    public IEnumerator RegisterBill(string id, string codename, string amount,string retencion, 
+                                    string yearExp, string monthExp, string dayExp,
+                                    string yearEmis, string monthEmis, string dayEmis)
     {
         WWWForm form = new WWWForm();
+        form.AddField("loginID", id);
         form.AddField("loginCode", codename);
-        form.AddField("loginAmount", amount);
-        form.AddField("loginRetencion", retencion);
-        form.AddField("loginYear", year);
-        form.AddField("loginMonth", month);
-        form.AddField("loginDay", day);
+        form.AddField("Amount", amount);
+        form.AddField("Retencion", retencion);
+        //==================================
+        form.AddField("YearExp", yearExp);
+        form.AddField("MonthExp", monthExp);
+        form.AddField("DayExp", dayExp);
+        //==================================
+        form.AddField("YearEmis", yearEmis);
+        form.AddField("MonthEmis", monthEmis);
+        form.AddField("DayEmis", dayEmis);
+
+
 
         using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/AppFinance/RegisterBill.php", form))
         {
@@ -119,13 +128,49 @@ public IEnumerator GetUsers(string uri)
             }
             else
             {
-                Debug.Log(www.downloadHandler.text);
+                //Debug.Log(www.downloadHandler.text);
+            }
+        
+        };
+
+    }
+public IEnumerator UpdateWallet(string id, string nameWallet, string initialCost,string finalCost, 
+                                    string yearDisc, string monthDisc, string dayDisc,
+                                    string TEA, string daysPerYear)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("loginID", id);
+        form.AddField("loginNameWallet", nameWallet);
+        //===============================
+        form.AddField("InitialCost", initialCost);
+        form.AddField("FinalCost", finalCost);
+        //===============================
+        form.AddField("YearDisc", yearDisc);
+        form.AddField("MonthDisc", monthDisc);
+        form.AddField("DayDisc", dayDisc);
+        //===============================
+        form.AddField("TEA", TEA);
+        form.AddField("daysPerYear", daysPerYear);
+        
+
+        using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/AppFinance/UpdateWallet.php", form))
+        {
+            yield return www.SendWebRequest();
+            if (www.isNetworkError || www.isHttpError)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+               // Debug.Log(www.downloadHandler.text);
             }
             
 
         };
 
     }
+
+    
 
 public IEnumerator GetItemsIDs(string userID, System.Action<string> callback)
     {
@@ -142,7 +187,7 @@ public IEnumerator GetItemsIDs(string userID, System.Action<string> callback)
             else
             {
                 //Show results as a text 
-                Debug.Log(www.downloadHandler.text);
+                //Debug.Log(www.downloadHandler.text);
                 string jsonArray = www.downloadHandler.text;
                 //Call callback function to pass results
                 callback(jsonArray);
@@ -150,7 +195,60 @@ public IEnumerator GetItemsIDs(string userID, System.Action<string> callback)
         };
     }
 
+public IEnumerator GetNameWallet(string userID,System.Action<string> callback)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("userID", userID);
 
+        using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/AppFinance/GetNameWallet.php",form))
+        {
+            yield return www.SendWebRequest();
+            if (www.isNetworkError || www.isHttpError)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                //Show results as a text 
+                //Debug.Log(www.downloadHandler.text);
+                string jsonArray = www.downloadHandler.text;
+                //Debug.Log(jsonArray);
+                //Call callback function to pass results
+                callback(jsonArray);
+
+            }
+        };
+    }
+/*
+public IEnumerator GetDays(string userID, string yearExp, string monthExp, string dayExp,System.Action<string> callback)
+    {
+        string daysString = "";
+        WWWForm form = new WWWForm();
+        form.AddField("userID", userID);
+        form.AddField("YearExp", yearExp);
+        form.AddField("MonthExp", monthExp);
+        form.AddField("DayExp", dayExp);
+
+        using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/AppFinance/GetDays.php",form))
+        {
+            yield return www.SendWebRequest();
+            if (www.isNetworkError || www.isHttpError)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                //Show results as a text 
+                //Debug.Log(www.downloadHandler.text);
+                string jsonArray = www.downloadHandler.text;
+                //Call callback function to pass results
+                callback(jsonArray);
+
+            }
+        };
+        yield return daysString;
+    }
+*/
 public IEnumerator GetItem(string itemID, System.Action<string> callback)
     {
         WWWForm form = new WWWForm();
@@ -167,7 +265,7 @@ public IEnumerator GetItem(string itemID, System.Action<string> callback)
             else
             {
 
-                Debug.Log(www.downloadHandler.text);
+                //Debug.Log(www.downloadHandler.text);
                 string jsonArray = www.downloadHandler.text;
                 //Call callback function to pass results
                 callback(jsonArray);
@@ -189,12 +287,11 @@ public IEnumerator DeleteItem(string itemID,string userID)
             else
             {
 
-                Debug.Log(www.downloadHandler.text);
+                //Debug.Log(www.downloadHandler.text);
                 //string jsonArray = www.downloadHandler.text;
                 //Call callback function to pass results
             }
         };
     }
-
 
 }

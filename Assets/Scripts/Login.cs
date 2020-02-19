@@ -14,12 +14,21 @@ public class Login : MonoBehaviour
     {
         LoginButton.onClick.AddListener(()=>{
                 StartCoroutine(MainScript.Instance.WebService.Login(UsernameInput.text,PasswordInput.text));
-                
+                //LoginIn();
         });
-            
     }
 
     public void VerifyInputs(){
         LoginButton.interactable = (UsernameInput.text.Length >= 2 && PasswordInput.text.Length >=2);  
     }
+
+    public void LoginIn(){
+        StartCoroutine(MainScript.Instance.WebService.Login(UsernameInput.text,PasswordInput.text));
+    }
+
+    public void SetInputs(){
+        UsernameInput.text = "";
+        PasswordInput.text = "";
+    }
+
 }

@@ -54,9 +54,11 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\BillRegister.cs" />
+     <Compile Include="Assets\Scripts\GestorWalletScript.cs" />
      <Compile Include="Assets\Scripts\ItemsManager.cs" />
      <Compile Include="Assets\Scripts\Login.cs" />
      <Compile Include="Assets\Scripts\MainScript.cs" />
+     <Compile Include="Assets\Scripts\OperationScript.cs" />
      <Compile Include="Assets\Scripts\RegisterUserScript.cs" />
      <Compile Include="Assets\Scripts\RegisterWalletScript.cs" />
      <Compile Include="Assets\Scripts\SimpleJSON.cs" />
