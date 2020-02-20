@@ -90,6 +90,7 @@ public class ItemsManager : MonoBehaviour
             item.transform.Find("ExpirationDate").GetComponent<Text>().text= itemInfoJson["expirationdate"]; //
             item.transform.Find("AmountReceived").GetComponent<Text>().text= System.Math.Round(recieved,2).ToString();
             item.transform.Find("AmountDelivered").GetComponent<Text>().text= System.Math.Round(delivered,2).ToString();
+            item.transform.Find("Days").GetComponent<Text>().text= itemInfoJson["days"];
             item.transform.Find("TCEA").GetComponent<Text>().text= System.Math.Round(tcea*100,7).ToString();
 
 
