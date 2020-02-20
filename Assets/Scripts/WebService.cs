@@ -59,7 +59,7 @@ public IEnumerator GetUsers(string uri)
             }
             else
             {  
-                Debug.Log(www.downloadHandler.text);
+                //Debug.Log(www.downloadHandler.text);
                 MainScript.Instance.UserInfo.SetID(www.downloadHandler.text);
                 MainScript.Instance.UserInfo.SetCredentials(username,password);
 

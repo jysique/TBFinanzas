@@ -73,5 +73,8 @@ public class UIScripts : MonoBehaviour
         PanelLogin.gameObject.SetActive(true);
         PanelGestor.gameObject.SetActive(false);
     }
+    public void QuitApplication(){
+        Application.Quit();
+    }
 
 }

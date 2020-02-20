@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using SimpleJSON;
-using System.Collections.Generic;
+//using System.Coll7ections.Generic;
 
 public class ItemsManager : MonoBehaviour
 {
@@ -13,9 +13,7 @@ public class ItemsManager : MonoBehaviour
     
     Action<string> _createItemsCallback;
 
-    public List<double> arrayDelivered;
 
-    public List<double> arrayDays;
 
     double sumaRecieved;
     double sumaDelivered;
@@ -28,8 +26,6 @@ public class ItemsManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        arrayDays = new List<double>();
-        arrayDelivered = new List<double>();
         _createItemsCallback=(jsonArrayString)=>{
             StartCoroutine(CreateItemsRoutine(jsonArrayString));
             
@@ -52,6 +48,9 @@ public class ItemsManager : MonoBehaviour
     }
 
     IEnumerator CreateItemsRoutine(string jsonArrayString ){
+        List<double> arrayDelivered = new List<double>();
+        List<double> arrayDays= new List<double>();
+
         //Parsin json array string as an array
         JSONArray jsonArray = JSON.Parse(jsonArrayString) as JSONArray;
         sumaRecieved = 0;
@@ -114,9 +113,6 @@ public class ItemsManager : MonoBehaviour
             arrayDelivered.Insert(i,delivered); // ENTREGADO
             arrayDays.Insert(i,diff_Day); // DAYS
 
-            
-            //Debug.Log("Añadido  " + i + " : "+ arrayDelivered[i] + "   " +delivered );
-            //Debug.Log("Array dias " + i + " : "+ arrayDays[i]);
         }
 
         double ptcea = System.Math.Round(CalculatePTCEA(arrayDelivered,arrayDays,sumaRecieved),7); 
@@ -138,9 +134,7 @@ public class ItemsManager : MonoBehaviour
             {
                 double a = 1 + mi;
                 double b = array_time[i] / 360.0;
-
                 double denominador = System.Math.Pow(a,b);
-
                 aux_mi = aux_mi + (array_entregado[i] / denominador);
 
             }
@@ -152,7 +146,7 @@ public class ItemsManager : MonoBehaviour
                 hi = mi;
             }
         }
-        Debug.Log("TCEA de la cartera="+ mi*100 + "%");
+      //  Debug.Log("TCEA de la cartera="+ mi*100 + "%");
 
         return mi*100;
     }
@@ -175,7 +169,7 @@ public class ItemsManager : MonoBehaviour
 
     }
     public void DestroyAllElements(){
-        Debug.Log("Elimando gameObject");
+      //  Debug.Log("Elimando gameObject");
         foreach (GameObject o in GameObject.FindGameObjectsWithTag("Item")) {
             //o.SetActive(false);
             Destroy(o.gameObject);
